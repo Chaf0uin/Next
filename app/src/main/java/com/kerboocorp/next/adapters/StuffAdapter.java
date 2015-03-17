@@ -20,6 +20,7 @@ import com.kerboocorp.next.model.Stuff;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void addItem(Stuff stuff) {
         stuffList.add(stuff);
+        Collections.sort(stuffList);
         notifyDataSetChanged();
     }
 
@@ -91,27 +93,32 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             Map<String, Long> dateDifference = stuff.getDateDifference(new Date(), stuff.getExpirationDate());
 
-            if (dateDifference.get("days") < 1) {
-                stuffViewHolder.date.setText("dans " + String.valueOf(dateDifference.get("hours")) + "h");
-            } else if (dateDifference.get("days") == 1) {
-                SimpleDateFormat daysFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                Map<String, Long> daysDifference = null;
-                try {
-                    daysDifference = stuff.getDateDifference(daysFormatter.parse(daysFormatter.format(new Date())), daysFormatter.parse(daysFormatter.format(stuff.getExpirationDate())));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+            if (dateDifference.size() > 0) {
+                if (dateDifference.get("days") < 1) {
+                    stuffViewHolder.date.setText("dans " + String.valueOf(dateDifference.get("hours")) + "h");
+                } else if (dateDifference.get("days") == 1) {
+                    SimpleDateFormat daysFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Map<String, Long> daysDifference = null;
+                    try {
+                        daysDifference = stuff.getDateDifference(daysFormatter.parse(daysFormatter.format(new Date())), daysFormatter.parse(daysFormatter.format(stuff.getExpirationDate())));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-                if (daysDifference.get("days") == 1) {
-                    stuffViewHolder.date.setText("demain");
+                    if (daysDifference.get("days") == 1) {
+                        stuffViewHolder.date.setText("demain");
+                    } else {
+                        stuffViewHolder.date.setText("dans 2 jours");
+                    }
+
+
                 } else {
-                    stuffViewHolder.date.setText("dans 2 jours");
+                    stuffViewHolder.date.setText("dans " + String.valueOf(dateDifference.get("days") + " jours"));
                 }
-
-
             } else {
-                stuffViewHolder.date.setText("dans " + String.valueOf(dateDifference.get("days") + " jours"));
+                stuffViewHolder.date.setText("expiré");
             }
+
 
             stuffViewHolder.content.setText(stuff.getContent());
             stuffViewHolder.name.setText(stuff.getName());

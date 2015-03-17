@@ -1,5 +1,6 @@
 package com.kerboocorp.next.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 /**
  * Created by cgo on 6/03/2015.
  */
-public class Stuff {
+public class Stuff implements Serializable, Comparable<Stuff> {
 
     private String name;
     private String content;
@@ -88,5 +89,10 @@ public class Stuff {
             return date;
         }
 
+    }
+
+    @Override
+    public int compareTo(Stuff another) {
+        return this.getExpirationDate().compareTo(another.getExpirationDate());
     }
 }

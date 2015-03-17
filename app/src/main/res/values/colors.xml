@@ -13,11 +13,18 @@
     <color name="main_color">#f5deb3</color>
 
     <color name="red">#F44336</color>
+    <color name="red_dark">#C43B31</color>
     <color name="blue">#42A5F5</color>
+    <color name="blue_dark">#227FC9</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="yellow_dark">#E3D134</color>
     <color name="green">#66BB6A</color>
+    <color name="green_dark">#519654</color>
     <color name="orange">#FF9800</color>
+    <color name="orange_dark">#CC7A00</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_dark">#C9C9C9</color>
     <color name="grey">#525252</color>
+    <color name="grey_dark">#292929</color>
 
 </resources>

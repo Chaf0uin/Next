@@ -57,27 +57,32 @@ public class StuffActivity extends ActionBarActivity {
 
         Map<String, Long> dateDifference = stuff.getDateDifference(new Date(), stuff.getExpirationDate());
 
-        if (dateDifference.get("days") < 1) {
-            date.setText("dans " + String.valueOf(dateDifference.get("hours")) + "h");
-        } else if (dateDifference.get("days") == 1) {
-            SimpleDateFormat daysFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            Map<String, Long> daysDifference = null;
-            try {
-                daysDifference = stuff.getDateDifference(daysFormatter.parse(daysFormatter.format(new Date())), daysFormatter.parse(daysFormatter.format(stuff.getExpirationDate())));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        if (dateDifference.size() > 0) {
+            if (dateDifference.get("days") < 1) {
+                date.setText("dans " + String.valueOf(dateDifference.get("hours")) + "h");
+            } else if (dateDifference.get("days") == 1) {
+                SimpleDateFormat daysFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                Map<String, Long> daysDifference = null;
+                try {
+                    daysDifference = stuff.getDateDifference(daysFormatter.parse(daysFormatter.format(new Date())), daysFormatter.parse(daysFormatter.format(stuff.getExpirationDate())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-            if (daysDifference.get("days") == 1) {
-                date.setText("demain");
+                if (daysDifference.get("days") == 1) {
+                    date.setText("demain");
+                } else {
+                    date.setText("dans 2 jours");
+                }
+
+
             } else {
-                date.setText("dans 2 jours");
+                date.setText("dans " + String.valueOf(dateDifference.get("days") + " jours"));
             }
-
-
         } else {
-            date.setText("dans " + String.valueOf(dateDifference.get("days") + " jours"));
+            date.setText("expiré");
         }
+
 
         content.setText(stuff.getContent());
 
