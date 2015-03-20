@@ -1,11 +1,8 @@
 package com.kerboocorp.next.adapters;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.util.Pair;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,14 +28,14 @@ import butterknife.ButterKnife;
 /**
  * Created by cgo on 6/03/2015.
  */
-public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StuffCalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Stuff> stuffList;
     private int rowLayout;
     private Activity activity;
     private Context context;
 
-    public StuffAdapter(int rowLayout, Context context, Activity activity) {
+    public StuffCalendarAdapter(int rowLayout, Context context, Activity activity) {
         this.stuffList = new ArrayList<Stuff>();
         this.rowLayout = rowLayout;
         this.activity = activity;
@@ -65,7 +62,7 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return stuffList.get(position);
     }
 
-    public void clearPostList() {
+    public void clearItemList() {
         stuffList.clear();
         notifyDataSetChanged();
     }
@@ -90,41 +87,8 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             stuffViewHolder.id = stuff.getId();
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
             stuffViewHolder.name.setText(stuff.getName());
 
-            Map<String, Long> dateDifference = stuff.getDateDifference(new Date(), stuff.getExpirationDate());
-
-            if (dateDifference.size() > 0) {
-                if (dateDifference.get("days") < 1) {
-                    stuffViewHolder.date.setText("dans " + String.valueOf(dateDifference.get("hours")) + "h");
-                } else if (dateDifference.get("days") == 1) {
-                    SimpleDateFormat daysFormatter = new SimpleDateFormat("yyyy-MM-dd");
-                    Map<String, Long> daysDifference = null;
-                    try {
-                        daysDifference = stuff.getDateDifference(daysFormatter.parse(daysFormatter.format(new Date())), daysFormatter.parse(daysFormatter.format(stuff.getExpirationDate())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (daysDifference.get("days") == 1) {
-                        stuffViewHolder.date.setText("demain");
-                    } else {
-                        stuffViewHolder.date.setText("dans 2 jours");
-                    }
-
-
-                } else {
-                    stuffViewHolder.date.setText("dans " + String.valueOf(dateDifference.get("days") + " jours"));
-                }
-            } else {
-                stuffViewHolder.date.setText("expiré");
-            }
-
-
-            stuffViewHolder.content.setText(stuff.getContent());
-            stuffViewHolder.name.setText(stuff.getName());
             stuffViewHolder.stuffLayout.setBackgroundColor(context.getResources().getColor(stuff.getColor()));
 
         }
@@ -134,9 +98,6 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     {
         public LinearLayout stuffLayout;
         public TextView name;
-        public TextView date;
-        public TextView content;
-        public ImageView map;
 
         public int id;
 
@@ -145,9 +106,6 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             stuffLayout = ButterKnife.findById(itemView, R.id.stuffLayout);
             name = ButterKnife.findById(itemView, R.id.nameTextView);
-            date = ButterKnife.findById(itemView, R.id.dateTextView);
-            content = ButterKnife.findById(itemView, R.id.contentTextView);
-            map = ButterKnife.findById(itemView, R.id.mapImageView);
 
             itemView.setOnClickListener(this);
         }
@@ -156,7 +114,7 @@ public class StuffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void onClick(View v) {
             Intent intent = new Intent(activity, StuffActivity.class);
             intent.putExtra("id", id);
-            StuffAdapter.this.activity.startActivity(intent);
+            StuffCalendarAdapter.this.activity.startActivity(intent);
         }
     }
 

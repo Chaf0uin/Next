@@ -24,6 +24,7 @@ public class StuffManager {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Stuff s1 = new Stuff();
+        s1.setId(1);
         s1.setName("Soirée jeux Kevin");
         try {
             s1.setExpirationDate(formatter.parse("2015-03-06 19:00:00"));
@@ -36,6 +37,7 @@ public class StuffManager {
         stuffList.add(s1);
 
         Stuff s2 = new Stuff();
+        s2.setId(2);
         s2.setName("Sortie Oli & JB");
         try {
             s2.setExpirationDate(formatter.parse("2015-03-07 20:00:00"));
@@ -47,6 +49,7 @@ public class StuffManager {
         stuffList.add(s2);
 
         Stuff s4 = new Stuff();
+        s4.setId(4);
         s4.setName("Anniversaire Flo & Quentin");
         try {
             s4.setExpirationDate(formatter.parse("2015-03-08 12:30:00"));
@@ -58,6 +61,7 @@ public class StuffManager {
         stuffList.add(s4);
 
         Stuff s3 = new Stuff();
+        s3.setId(3);
         s3.setName("Courses");
         try {
             s3.setExpirationDate(formatter.parse("2015-03-09 17:00:00"));
@@ -71,6 +75,7 @@ public class StuffManager {
         stuffList.add(s3);
 
         Stuff s5 = new Stuff();
+        s5.setId(5);
         s5.setName("Théâtre Emi");
         try {
             s5.setExpirationDate(formatter.parse("2015-03-18 19:00:00"));
@@ -82,6 +87,7 @@ public class StuffManager {
         stuffList.add(s5);
 
         Stuff s6 = new Stuff();
+        s6.setId(6);
         s6.setName("Sortie Mario Party 10");
         try {
             s6.setExpirationDate(formatter.parse("2015-03-20 19:00:00"));
@@ -101,7 +107,27 @@ public class StuffManager {
         return stuffList;
     }
 
-    public Stuff findStuff(int position) {
-        return stuffList.get(position);
+    public Stuff findStuff(int id) {
+        for (Stuff stuff : stuffList) {
+            if (stuff.getId() == id) {
+                return stuff;
+            }
+        }
+
+        return null;
+    }
+
+    public List<Stuff> findStuffListByDate(Date date) {
+        SimpleDateFormat dayFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<Stuff> filteredStuffList = new ArrayList<Stuff>();
+
+        for (Stuff stuff : stuffList) {
+            if (dayFormatter.format(stuff.getExpirationDate()).equals(dayFormatter.format(date))) {
+                filteredStuffList.add(stuff);
+            }
+        }
+
+        return filteredStuffList;
     }
 }

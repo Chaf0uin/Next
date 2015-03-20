@@ -51,7 +51,7 @@ public class StuffActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        stuff = StuffManager.getInstance().findStuff(getIntent().getIntExtra("position", 0));
+        stuff = StuffManager.getInstance().findStuff(getIntent().getIntExtra("id", 0));
 
         name.setText(stuff.getName());
 

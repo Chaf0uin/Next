@@ -10,11 +10,20 @@ import java.util.Map;
  */
 public class Stuff implements Serializable, Comparable<Stuff> {
 
+    private Integer id;
     private String name;
     private String content;
     private Date expirationDate;
     private String address;
     private int color;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
